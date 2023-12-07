@@ -187,6 +187,11 @@ def solve(input: list[str]) -> float:
     my_game = CamelCards(input)
     sorted_hands = my_game.tree_sort()
 
+    for x in sorted_hands:
+        print(x)
+
+    import sys; sys.exit()
+
     sum = 0
     for idx, hand in enumerate(sorted_hands):
         hand.rank = idx + 1
@@ -196,14 +201,14 @@ def solve(input: list[str]) -> float:
     return sum
 
 
-def test() -> bool:
+def test() -> float:
     """Quick & dirty unit test"""
     hands = get_sample_input()
     sum = solve(hands)
 
     assert sum == 6440, f'{sum} != 6440'
 
-    return True
+    return sum
 
 
 def main() -> None:
@@ -214,7 +219,8 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    #test()
-    main()
+    #print(test())
 
     # 253051174 is too high lol
+    main()
+
