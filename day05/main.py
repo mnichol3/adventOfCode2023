@@ -1,6 +1,7 @@
 """
 Welcome to the dumpster fire.
 """
+from typing import Dict
 from pathlib import Path
 
 
@@ -11,7 +12,16 @@ class SeedMap:
         self.src_range = map_list[1]
         self.range_length = map_list[2]
 
-    def __repr__(self):
+        self.dest_list = []
+        self.src_list = []
+
+    def expand(self) -> None:
+        for attr in ['dest_range', 'src_range']:
+            val = getattr(self, attr)
+            rng = range(getattr, getattr + self.range_length, 1)
+            setattr(attr.replace('range', 'list'), rng)
+
+    def __repr__(self) -> str:
         return f'<SeedMap {self.dest_range}, {self.src_range}, {self.range_length}>'
 
 
@@ -46,6 +56,10 @@ def read_input(path: Path) -> None:
                     data[curr_name] = my_dict
 
     return data
+
+
+def fill_zeros(data_dict: Dict[float, SeedMap]) -> Dict:
+    pass
 
 
 if __name__ == '__main__':
