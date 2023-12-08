@@ -25,6 +25,7 @@ def solve_1(hands: list[str]) -> float:
 
     return sum
 
+
 def solve_2(hands: list[str]) -> float:
     """Part 2"""
     hands = ((
@@ -39,6 +40,7 @@ def solve_2(hands: list[str]) -> float:
         sum += (rank + 1) * bid
 
     return sum
+
 
 if __name__ == '__main__':
     #result = solve_1(read_input(Path('input.txt')))
