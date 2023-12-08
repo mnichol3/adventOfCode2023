@@ -28,21 +28,16 @@ def read_input() -> Tuple[List[str], Dict[str, List[str]]]:
 def solve_1(instructions: list[str], nodes: Dict[str, list[str]]) -> None:
     """Solution for Part 1."""
     curr_node = 'AAA'
-    idx, instr_idx = 0, 0
+    idx = 0
+    num_instrs = len(instructions)
 
     while curr_node != 'ZZZ':
-        try:
-            curr_step = instructions[instr_idx]
-        except IndexError:
-            instr_idx = 0
-            curr_step = instructions[instr_idx]
-
+        curr_step = instructions[idx % num_instrs]
         step_idx = 0 if curr_step == 'L' else 1
 
         curr_node = nodes[curr_node][step_idx]
 
         idx += 1
-        instr_idx += 1
 
     print(idx)
 
