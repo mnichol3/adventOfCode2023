@@ -30,7 +30,7 @@ def solve_2(hands: list[str]) -> float:
     hands = ((
         max(map(hand.count, hand)),
         -len(set(hand)),
-        *map('23456789TJQKA'.index, hand),
+        *map('J23456789TQKA'.index, hand),
         int(bid),
         ) for hand, bid in map(str.split, hands))
 
