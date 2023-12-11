@@ -2,8 +2,14 @@
 Advent of Code 2023
 Day 9 - Mirage Maintenance
 """
-import sys
 from pathlib import Path
+
+
+SAMPLE_INPUT = [
+    [0, 3, 6, 9, 12, 15],
+    [1, 3, 6, 10, 15, 21],
+    [10, 13, 16, 21, 30, 45],
+]
 
 
 def read_input(fname: str = 'input.txt') -> list[list[float]]:
@@ -49,20 +55,20 @@ def solve_1(hist: list[float]) -> float:
     ------
     float
     """
-    diffs = [hist[-1]]
+    diffs = [hist]
+    row_idx = 0
 
-    iter_list = hist
-    while True:
-        curr_diffs = [iter_list[idx + 1] - val for idx, val in enumerate(iter_list[:-1])]
+    while list(set(diffs[-1])) != [0]:
+        diffs.append(
+            [
+                diffs[row_idx][idx + 1] - val for idx, val in enumerate(
+                    diffs[row_idx][:-1]
+                )
+            ]
+        )
+        row_idx += 1
 
-        diffs.append(curr_diffs[-1])
-
-        if list(set(curr_diffs)) == [0]:
-            break
-
-        iter_list = curr_diffs
-
-    return sum(diffs)
+    return sum([x[-1] for x in diffs])
 
 
 def solve_2(hist: list[float]) -> float:
@@ -77,11 +83,30 @@ def solve_2(hist: list[float]) -> float:
     ------
     float
     """
-    raise NotImplementedError
+    diffs = [hist]
+    row_idx = 0
+
+    while list(set(diffs[-1])) != [0]:
+        diffs.append(
+            [
+                diffs[row_idx][idx + 1] - val for idx, val in enumerate(
+                    diffs[row_idx][:-1]
+                )
+            ]
+        )
+        row_idx += 1
+
+    val = 0
+    for x in reversed(diffs):
+        val = x[0] - val
+
+    return val
 
 
 if __name__ == '__main__':
     inp = read_input()
+    #inp = SAMPLE_INPUT
 
-    #print(sum([solve_1(x) for x in inp]))
+    print(sum([solve_1(x) for x in inp]))
     print(sum([solve_2(x) for x in inp]))
+
