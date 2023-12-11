@@ -38,7 +38,7 @@ def read_input(fname: str = 'input.txt') -> list[list[float]]:
     """
     input = Path(__file__).with_name(fname).read_text().splitlines()
 
-    input = [[int(x) for x in y.split()] for y in input]
+    input = [[int(y) for y in x.split()] for x in input]
 
     return input
 
