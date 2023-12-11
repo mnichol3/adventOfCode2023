@@ -73,7 +73,7 @@ def solve_1(hist: list[float]) -> float:
 
 def solve_2(hist: list[float]) -> float:
     """
-    Solution for Part 1.
+    Solution for Part 2.
 
     Parameters
     ----------
