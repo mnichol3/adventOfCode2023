@@ -91,8 +91,7 @@ def test_1() -> None:
 
 
 if __name__ == '__main__':
-    inp = Path(__file__).with_name('input.txt').read_text().splitlines()
-    inp = explode(inp)
+    inp = explode(Path(__file__).with_name('input.txt').read_text().splitlines())
 
     #test_1()
     soln = solve_1(inp)
