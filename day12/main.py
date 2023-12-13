@@ -29,5 +29,14 @@ def solve_2(grid: list[list[str]]) -> int:
     raise NotImplementedError
 
 
+def test_1() -> None:
+    """Unit test for Part 1 solution."""
+    soln = solve_1(explode(SAMPLE_INP))
+    assert soln == 21, f'{soln} != 21'
+
+    print('Test 1 OK')
+
+
 if __name__ == '__main__':
+    #grid = Path(__file__).with_name('input.txt').read_text().readlines()
     grid = explode(SAMPLE_INP)
