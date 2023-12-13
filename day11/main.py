@@ -65,7 +65,7 @@ def solve_1(grid: list[list[str]]) -> int:
 
     for idx, origin in enumerate(coords):
         for dest in coords[idx:]:
-            path = f'{origin[2]}{dest[2]}'
+            path = f'{origin[2]}-{dest[2]}'
             if path not in visited:
                 delta_i = abs(dest[0] - origin[0])
                 delta_j = abs(dest[1] - origin[1])
