@@ -64,14 +64,12 @@ def solve_2(text: list[str]) -> int:
     """
     Solution to Part 2.
     """
-    ttl_points = 0
-    card_idx = 1
     cards = {}
 
-    for line in text:
+    for idx, line in enumerate(text):
+        card_idx = idx + 1
         my_nums, winning_nums = clean_line(line)
         cards[card_idx] = Card(card_idx, my_nums, winning_nums)
-        card_idx += 1
 
     for key, val in cards.items():
         if val.num_matches != 0:
