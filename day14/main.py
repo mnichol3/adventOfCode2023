@@ -19,61 +19,113 @@ SAMPLE_GRID = [
 ]
 
 
+# North, West, South, East
+TILTS = {
+    1: (-1, 0),
+    2: (0, -1),
+    3: (1, 0),
+    4: (0, 1),
+}
+
+
 def pretty_print(grid: list[list[str]]) -> None:
-    _ = [print(''.join(x)) for x in grid]
+    [print(''.join(x)) for x in grid]
+    print('-'*20)
 
 
 def explode(grid: list[str]) -> list[list[str]]:
     return [list(x) for x in grid]
 
 
-def solve_1(grid: list[list[str]]) -> list[list[str]]:
-    """Solution to Part 1."""
-
-    def can_move(grid: list[list[str]], pos: tuple[int]) -> bool:
-        """Can the stone move?"""
-        val = False
-        i, j = pos
-
-        try:
-            val = grid[i - 1][j] == '.'
-        except IndexError:
-            pass
-
-        return val
-
+def solve_2(grid: list[list[str]], cycles: int = 10e8, pprint: bool = False) -> int:
+    """Solution to Part 2."""
     n_rows = len(grid)
     n_cols = len(grid[0])
-    rounds = []
 
-    for i in range(n_rows):
-        for j in range(n_cols):
-            if grid[i][j] == 'O': rounds.append((i, j))
+    # GIVE ME MORE LOOPS I LOVE LOOPS
+    for cyc in range(cycles):
+        for k in range(1, 5, 1):
+            delta_i, delta_j = TILTS[k]
 
-    for stone in rounds:
-        curr_i, curr_j = i, j = stone
+            for i in range(n_rows):
+                for j in range(n_cols):
+                    if (
+                        grid[i][j] == 'O' and
+                        i + delta_i >= 0 and
+                        j + delta_j >= 0
+                    ):
+                        ii, jj = i, j
 
-        while can_move(grid, (curr_i, curr_j)) and curr_i > 0:
-            curr_i -= 1
+                        try:
+                            next_spot = grid[ii + delta_i][jj + delta_j]
+                        except IndexError:
+                            continue
 
-        if (curr_i, curr_j) != (i, j):
-            grid[curr_i][curr_j] = 'O'
-            grid[i][j] = '.'
+                        while (
+                            next_spot == '.' and
+                            ii + delta_i >= 0 and
+                            jj + delta_j >= 0
+                        ):
+
+                            try:
+                                grid[ii + delta_i][jj + delta_j] = 'O'
+                            except IndexError:
+                                break
+
+                            grid[ii][jj] = '.'
+
+                            ii += delta_i
+                            jj += delta_j
+
+                            next_spot = grid[ii][jj]
+                # end j
+            # end i
+            pretty_print(grid)
+        # end tilt loop
+    # end cycle loop
 
     sum = 0
     for i in range(n_rows):
         for j in range(n_cols):
-            sum += n_rows - i if grid[i][j] == 'O' else 0
+            if grid[i][j] == 'O': sum += n_rows - i
 
-    return sum, grid
+    if pprint: pretty_print(grid)
+
+    return sum
+
+
+def solve_1(grid: list[list[str]], pprint: bool = False) -> int:
+    """Solution to Part 1."""
+    n_rows = len(grid)
+    n_cols = len(grid[0])
+
+    for i in range(n_rows):
+        for j in range(n_cols):
+
+            if grid[i][j] == 'O':
+                ii, jj = i, j
+
+                while grid[ii - 1][jj] == '.' and ii > 0:
+                    grid[ii][jj] = '.'
+                    ii -= 1
+                    grid[ii][jj] = 'O'
+
+    sum = 0
+    for i in range(n_rows):
+        for j in range(n_cols):
+            if grid[i][j] == 'O': sum += n_rows - i
+
+    if pprint: pretty_print(grid)
+
+    return sum
 
 
 if __name__ == '__main__':
-    #grid = explode(SAMPLE_GRID)
-    grid = explode(Path(__file__).with_name('input.txt').read_text().splitlines())
+    grid = explode(SAMPLE_GRID)
+    #grid = explode(Path(__file__).with_name('input.txt').read_text().splitlines())
 
-    soln, grid = solve_1(grid)
+    #soln= solve_1(grid)
+    soln = solve_2(grid, cycles=1, pprint=True)
 
-    pretty_print(grid)
     print(soln)
 
